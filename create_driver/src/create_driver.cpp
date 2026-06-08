@@ -158,6 +158,7 @@ CreateDriver::CreateDriver()
   capacity_pub_ = create_publisher<std_msgs::msg::Float32>("battery/capacity", 30);
   temperature_pub_ = create_publisher<std_msgs::msg::Int16>("battery/temperature", 30);
   charging_state_pub_ = create_publisher<create_msgs::msg::ChargingState>("battery/charging_state", 30);
+  pc_battery_pub_ = create_publisher<std_msgs::msg::Int32>("battery/pc", 30);
   omni_char_pub_ = create_publisher<std_msgs::msg::UInt16>("ir_omni", 30);
   mode_pub_ = create_publisher<create_msgs::msg::Mode>("mode", 30);
   bumper_pub_ = create_publisher<create_msgs::msg::Bumper>("bumper", 30);
@@ -544,6 +545,21 @@ void CreateDriver::publishBatteryInfo()
       break;
   }
   charging_state_pub_->publish(charging_state_msg_);
+  std::ifstream capacity_file("/sys/class/power_supply/BAT1/capacity");
+  if (capacity_file.is_open()) {
+    int pc_capacity = -1;
+    capacity_file >> pc_capacity;
+    capacity_file.close();
+
+    if (pc_capacity >= 0) {
+      auto pc_msg = std_msgs::msg::Int32();
+      pc_msg.data = pc_capacity;
+      pc_battery_pub_->publish(pc_msg);
+    }
+  } else {
+    // Optional: Throttle log warning if file is missing (e.g. running on wall power with no battery)
+    RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 60000, "[CREATE] Cannot read PC battery capacity file.");
+  }
 }
 
 void CreateDriver::publishButtonPresses() const

@@ -54,6 +54,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "std_msgs/msg/u_int8_multi_array.hpp"
 #include "tf2_ros/transform_broadcaster.h"
 
+#include "std_msgs/msg/int32.hpp"
+#include <fstream>
+
 static const double COVARIANCE[36] = {1e-5, 1e-5, 0.0,  0.0,  0.0,  1e-5,  // NOLINT(whitespace/braces)
                                       1e-5, 1e-5, 0.0,  0.0,  0.0,  1e-5,
                                       0.0,  0.0,  1e-5, 0.0,  0.0,  0.0,
@@ -102,6 +105,7 @@ private:
   rclcpp::Publisher<std_msgs::msg::Empty>::SharedPtr wheeldrop_pub_;
   rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr wheel_joint_pub_;
   rclcpp::Publisher<create_msgs::msg::Cliff>::SharedPtr cliff_pub_;
+  rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr pc_battery_pub_;
 
   rclcpp::TimerBase::SharedPtr loop_timer_;
 
