@@ -16,7 +16,10 @@ create_driver:
     latch_cmd_duration: 0.2
 
     # Internal loop update rate (Hz)
-    loop_hz: 10.0
+    loop_hz: 5.0
 
     # Whether to publish the transform between odom_frame and base_frame
     publish_tf: true
+
+    # Workaround for OI mode issues
+    # oi_mode_workaround: true # Only if you see error with OI mode in logs, otherwise leave commented out as it can cause other issues
