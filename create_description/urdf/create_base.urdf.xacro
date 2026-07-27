@@ -256,6 +256,21 @@
     </collision>
     </link>
 
+    <joint name="camera_joint" type="fixed">
+      <origin xyz="0.16495 0 0.120" rpy="0 0 0" />
+      <parent link="base_footprint" />
+      <child link="camera_link" />
+    </joint>
+    <link name="camera_link" />
+
+    <!-- ROS optical convention: +x right, +y down, +z forward. -->
+    <joint name="camera_optical_joint" type="fixed">
+      <origin xyz="0 0 0.030" rpy="${-PI/2} 0 ${-PI/2}" />
+      <parent link="camera_link" />
+      <child link="camera_optical_frame" />
+    </joint>
+    <link name="camera_optical_frame" />
+
     <!-- Simulation sensors -->
     <xacro:sim_create_base/>
     <xacro:sim_create_wall_sensor/>
