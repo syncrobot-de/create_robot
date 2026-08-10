@@ -25,18 +25,18 @@ include_directories(
 )
 
 add_executable(${PROJECT_NAME} src/${PROJECT_NAME}.cpp)
-ament_target_dependencies(${PROJECT_NAME}
-  create_msgs
-  diagnostic_msgs
-  diagnostic_updater
-  geometry_msgs
-  libcreate
-  nav_msgs
-  rclcpp
-  sensor_msgs
-  std_msgs
-  tf2_geometry_msgs
-  tf2_ros
+target_link_libraries(${PROJECT_NAME} PRIVATE
+  ${libcreate_LIBRARIES}
+  create_msgs::create_msgs
+  diagnostic_msgs::diagnostic_msgs
+  diagnostic_updater::diagnostic_updater
+  geometry_msgs::geometry_msgs
+  nav_msgs::nav_msgs
+  rclcpp::rclcpp
+  sensor_msgs::sensor_msgs
+  std_msgs::std_msgs
+  tf2_geometry_msgs::tf2_geometry_msgs
+  tf2_ros::tf2_ros
 )
 
 if(BUILD_TESTING)
